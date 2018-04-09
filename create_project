@@ -8,7 +8,6 @@ starter_requirements="$starter_dir/requirements"
 starter_project_tools="$starter_dir/project_tools/*"
 starter_source="$starter_dir/source/*"
 starter_gitignore="$starter_dir/gitignore.example"
-starter_django_settings="$starter_dir/django_settings.py"
 
 project_dir="/code/$1"
 project_source="$project_dir/$1"
@@ -27,13 +26,12 @@ echo "create project"
 cd /code && django-admin.py startproject $1
 
 # copy default settings vars
-SECRET_KEY=`cat $project_origin_settings | grep SECRET_KEY`
-ROOT_URLCONF =`cat $project_origin_settings | grep ROOT_URLCONF`
-WSGI_APPLICATION =`cat $project_origin_settings | grep WSGI_APPLICATION`
+SECRET_KEY=`cat ${project_origin_settings} | grep SECRET_KEY`
+ROOT_URLCONF=`cat ${project_origin_settings} | grep ROOT_URLCONF`
+WSGI_APPLICATION=`cat ${project_origin_settings} | grep WSGI_APPLICATION`
 
 # copy file
 echo "copy file"
-cp $Dockerfile $project_dir
 cp -r $starter_requirements $project_dir
 cp -r $starter_project_tools $project_dir
 cp -r $starter_source $project_source
@@ -44,4 +42,4 @@ echo "restore settings"
 sed -i "s/^SECRET_KEY.*/${SECRET_KEY}/g" $project_origin_settings
 sed -i "s/ROOT_URLCONF.*/${ROOT_URLCONF}/g" $project_origin_settings
 sed -i "s/WSGI_APPLICATION.*/${WSGI_APPLICATION}/g" $project_origin_settings
-find $project_dir -type f --exec sed -i "s/{project}/$1/g" {} +
+find $project_dir -type f -exec sed -i "s/{project}/$1/g" {} +

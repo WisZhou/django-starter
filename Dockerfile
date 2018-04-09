@@ -1,4 +1,4 @@
-FROM daocloud.io/library/python:2.7.14
+FROM hub.qixincha.com/python:2.7.14
 ENV PYTHONUNBUFFERED 1
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 RUN mkdir /code
